@@ -27,7 +27,6 @@
         label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary-color); }
         input, textarea, select { width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
 
-        /* Blinking Warning Animation */
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         .warning-box { 
             background-color: #fff4f4; border: 2px solid var(--warning-red); padding: 15px; 
@@ -45,7 +44,6 @@
         }
 
         button:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
-        .error-hint { color: var(--warning-red); font-size: 0.85rem; display: none; }
         .manual-input { display: none; margin-top: 12px; }
     </style>
 </head>
@@ -77,11 +75,7 @@
         <div class="form-group"><label>Full Name</label><input type="text" id="boyName" required></div>
         <div class="form-group"><label>Mother's Name</label><input type="text" id="boyMother" required></div>
         <div class="form-group"><label>Father's Name</label><input type="text" id="boyFather" required></div>
-        <div class="form-group">
-            <label>Date of Birth</label>
-            <input type="date" id="boyDob" required>
-            <small id="boyAgeError" class="error-hint">⚠ Boy must be at least 21 years old.</small>
-        </div>
+        <div class="form-group"><label>Date of Birth</label><input type="date" id="boyDob" required></div>
         <div class="form-group"><label>Residential Address</label><textarea id="boyAddress" rows="3" required></textarea></div>
         <div class="form-group"><label>Pincode</label><input type="number" id="boyPincode" required></div>
 
@@ -89,11 +83,7 @@
         <div class="form-group"><label>Full Name</label><input type="text" id="girlName" required></div>
         <div class="form-group"><label>Mother's Name</label><input type="text" id="girlMother" required></div>
         <div class="form-group"><label>Father's Name</label><input type="text" id="girlFather" required></div>
-        <div class="form-group">
-            <label>Date of Birth</label>
-            <input type="date" id="girlDob" required>
-            <small id="girlAgeError" class="error-hint">⚠ Girl must be at least 18 years old.</small>
-        </div>
+        <div class="form-group"><label>Date of Birth</label><input type="date" id="girlDob" required></div>
         <div class="form-group"><label>Residential Address</label><textarea id="girlAddress" rows="3" required></textarea></div>
         <div class="form-group"><label>Pincode</label><input type="number" id="girlPincode" required></div>
 
@@ -137,7 +127,7 @@
         <div class="form-group"><label>Witness 2 Address</label><textarea id="w2Address" rows="2" required></textarea></div>
 
         <div class="warning-box">
-            चेतावनी: फॉर्म ध्यान से भरें, बाद में हमारी कोई जिम्मेदारी नहीं होगी। अगर कोई गलती होती है तो यह आपकी जिम्मेदारी है।
+            चेतावनी: फॉर्म ध्यान से भरें, बाद में हमारी कोई जिम्मेदारी नहीं होगी।
         </div>
 
         <div class="agreement-section">
@@ -151,13 +141,14 @@
 
 <script>
     const ADDRESSES = {
-        "Vipin Tyagi": "H No Ff25, Gali No 7, Budh Bazar Vijay Nagar, Sain Vihar, Ghaziabad, Ghaziabad, Ghaziabad, Uttar Pradesh 201001",
+        "Vipin Tyagi": "H No Ff25, Gali No 7, Budh Bazar Vijay Nagar, Sain Vihar, Ghaziabad, Uttar Pradesh 201001",
         "Sangeeta Kumar": "House No 136 Loni Ghaziabad 201102",
         "Soniya Soni": "House Number A 1, Street Number 2, Harijan Basti, Karawal Nagar, Dayalpur, North East Delhi, Delhi 110094",
         "VIPIN KUMAR": "165 NEW VIKAS NAGAR LONI GHAZIABAD 201102"
     };
 
     function toTitleCase(str) {
+        if (!str) return "";
         return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     }
 
@@ -178,16 +169,38 @@
 
     document.getElementById('marriageForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        
         const getVal = (sId, mId) => toTitleCase(document.getElementById(sId).value === "Manual" ? document.getElementById(mId).value : document.getElementById(sId).value);
         const val = (id) => toTitleCase(document.getElementById(id).value);
-        const addrVal = (id) => toTitleCase(document.getElementById(id).value).split(' ').filter(w => w !== '').join('  ');
+        const rawVal = (id) => document.getElementById(id).value;
+        const addrWithPin = (addrId, pinId) => `${toTitleCase(document.getElementById(addrId).value)}, Pincode: ${document.getElementById(pinId).value}`;
 
-        let msg = `*MARRIAGE DETAILS*%0A%0A*Advocate:* ${getVal('advocateSelect', 'manualAdvocateName')}%0A%0A`;
-        msg += `*BOY:* ${val('boyName')}%0A- Mother: ${val('boyMother')}%0A- Father: ${val('boyFather')}%0A- Address: ${addrVal('boyAddress')}%0A%0A`;
-        msg += `*GIRL:* ${val('girlName')}%0A- Mother: ${val('girlMother')}%0A- Father: ${val('girlFather')}%0A- Address: ${addrVal('girlAddress')}%0A%0A`;
-        msg += `*WITNESS 1:* ${getVal('w1Select', 'manualW1Name')} - ${addrVal('w1Address')}%0A*WITNESS 2:* ${getVal('w2Select', 'manualW2Name')} - ${addrVal('w2Address')}`;
+        let msg = `*MARRIAGE REGISTRATION DETAILS*%0A%0A`;
+        msg += `*Advocate:* ${getVal('advocateSelect', 'manualAdvocateName')}%0A%0A`;
         
-        window.location.href = `https://wa.me/919990150544?text=${msg}`;
+        msg += `*♂ BOY'S INFO*%0A`;
+        msg += `- Name: ${val('boyName')}%0A`;
+        msg += `- Mother: ${val('boyMother')}%0A`;
+        msg += `- Father: ${val('boyFather')}%0A`;
+        msg += `- DOB: ${rawVal('boyDob')}%0A`;
+        msg += `- Address: ${addrWithPin('boyAddress', 'boyPincode')}%0A%0A`;
+
+        msg += `*♀ GIRL'S INFO*%0A`;
+        msg += `- Name: ${val('girlName')}%0A`;
+        msg += `- Mother: ${val('girlMother')}%0A`;
+        msg += `- Father: ${val('girlFather')}%0A`;
+        msg += `- DOB: ${rawVal('girlDob')}%0A`;
+        msg += `- Address: ${addrWithPin('girlAddress', 'girlPincode')}%0A%0A`;
+
+        msg += `*💍 MARRIAGE DETAILS*%0A`;
+        msg += `- Center: ${getVal('centerSelect', 'manualCenterName')}%0A`;
+        msg += `- Date: ${rawVal('marriageDate')}%0A%0A`;
+
+        msg += `*👥 WITNESSES*%0A`;
+        msg += `1. ${getVal('w1Select', 'manualW1Name')} (${toTitleCase(document.getElementById('w1Address').value)})%0A`;
+        msg += `2. ${getVal('w2Select', 'manualW2Name')} (${toTitleCase(document.getElementById('w2Address').value)})`;
+
+        window.open(`https://wa.me/919990150544?text=${msg}`, '_blank');
     });
 </script>
 </body>
