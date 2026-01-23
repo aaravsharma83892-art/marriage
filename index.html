@@ -152,6 +152,13 @@
         return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     }
 
+    // New function to convert YYYY-MM-DD to DD/MM/YYYY
+    function formatToDDMMYYYY(dateStr) {
+        if (!dateStr) return "N/A";
+        const [year, month, day] = dateStr.split('-');
+        return `${day}/${month}/${year}`;
+    }
+
     function toggleManual(selId, divId, inpId) {
         const sel = document.getElementById(selId);
         const div = document.getElementById(divId);
@@ -172,8 +179,8 @@
         
         const getVal = (sId, mId) => toTitleCase(document.getElementById(sId).value === "Manual" ? document.getElementById(mId).value : document.getElementById(sId).value);
         const val = (id) => toTitleCase(document.getElementById(id).value);
-        const rawVal = (id) => document.getElementById(id).value;
-        const addrWithPin = (addrId, pinId) => `${toTitleCase(document.getElementById(addrId).value)}, Pincode: ${document.getElementById(pinId).value}`;
+        const dateVal = (id) => formatToDDMMYYYY(document.getElementById(id).value);
+        const getPin = (id) => document.getElementById(id).value;
 
         let msg = `*MARRIAGE REGISTRATION DETAILS*%0A%0A`;
         msg += `*Advocate:* ${getVal('advocateSelect', 'manualAdvocateName')}%0A%0A`;
@@ -182,23 +189,25 @@
         msg += `- Name: ${val('boyName')}%0A`;
         msg += `- Mother: ${val('boyMother')}%0A`;
         msg += `- Father: ${val('boyFather')}%0A`;
-        msg += `- DOB: ${rawVal('boyDob')}%0A`;
-        msg += `- Address: ${addrWithPin('boyAddress', 'boyPincode')}%0A%0A`;
+        msg += `- DOB: ${dateVal('boyDob')}%0A`;
+        msg += `- Address: ${val('boyAddress')}%0A`;
+        msg += `- Pincode: ${getPin('boyPincode')}%0A%0A`;
 
         msg += `*♀ GIRL'S INFO*%0A`;
         msg += `- Name: ${val('girlName')}%0A`;
         msg += `- Mother: ${val('girlMother')}%0A`;
         msg += `- Father: ${val('girlFather')}%0A`;
-        msg += `- DOB: ${rawVal('girlDob')}%0A`;
-        msg += `- Address: ${addrWithPin('girlAddress', 'girlPincode')}%0A%0A`;
+        msg += `- DOB: ${dateVal('girlDob')}%0A`;
+        msg += `- Address: ${val('girlAddress')}%0A`;
+        msg += `- Pincode: ${getPin('girlPincode')}%0A%0A`;
 
         msg += `*💍 MARRIAGE DETAILS*%0A`;
         msg += `- Center: ${getVal('centerSelect', 'manualCenterName')}%0A`;
-        msg += `- Date: ${rawVal('marriageDate')}%0A%0A`;
+        msg += `- Date: ${dateVal('marriageDate')}%0A%0A`;
 
         msg += `*👥 WITNESSES*%0A`;
-        msg += `1. ${getVal('w1Select', 'manualW1Name')} (${toTitleCase(document.getElementById('w1Address').value)})%0A`;
-        msg += `2. ${getVal('w2Select', 'manualW2Name')} (${toTitleCase(document.getElementById('w2Address').value)})`;
+        msg += `1. ${getVal('w1Select', 'manualW1Name')}%0A- Address: ${toTitleCase(document.getElementById('w1Address').value)}%0A`;
+        msg += `2. ${getVal('w2Select', 'manualW2Name')}%0A- Address: ${toTitleCase(document.getElementById('w2Address').value)}`;
 
         window.open(`https://wa.me/919990150544?text=${msg}`, '_blank');
     });
