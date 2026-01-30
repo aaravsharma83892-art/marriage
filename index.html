@@ -51,7 +51,11 @@
                 <option value="">-- Select Advocate --</option>
                 <option value="Dev Tyagi">Dev Tyagi</option>
                 <option value="Shiva Gupta">Shiva Gupta</option>
-                <option value="AK">AK</option>
+                <option value="Ashish">Ashish</option>
+                <option value="Abhishek">Abhishek</option>
+                <option value="Monu">Monu</option>
+                <option value="Moolchand">Moolchand</option>
+                <option value="Danish Boss">Danish Boss</option>
                 <option value="Manual">✎ Manual Fill</option>
             </select>
             <div id="manualAdvocateDiv" class="manual-input"><input type="text" id="manualAdvocateName" placeholder="Type Advocate Name"></div>
@@ -101,6 +105,7 @@
             <select id="centerSelect" onchange="toggleManual('centerSelect', 'manualCenterDiv', 'manualCenterName')" required>
                 <option value="">-- Select Center --</option>
                 <option value="Naitik Vaidik Sanskar Samiti Regd. Gandhi Nagar, Ghaziabad">Naitik Vaidik Sanskar Samiti Regd. Gandhi Nagar, Ghaziabad</option>
+                <option value="Moti Mahal Masjid, Kella Bhatta, Ghaziabad">Moti Mahal Masjid, Kella Bhatta, Ghaziabad</option>
                 <option value="Manual">✎ Manual Fill</option>
             </select>
             <div id="manualCenterDiv" class="manual-input"><input type="text" id="manualCenterName" placeholder="Type Center Name"></div>
@@ -113,6 +118,7 @@
             <select id="w1Select" onchange="handleWitnessChange(1)" required>
                 <option value="">-- Select Witness 1 --</option>
                 <option value="Vipin Tyagi">Vipin Tyagi</option>
+                <option value="Mohd Furqan">Mohd Furqan</option>
                 <option value="Manual">✎ Manual Fill</option>
             </select>
             <div id="manualW1Div" class="manual-input"><input type="text" id="manualW1Name" placeholder="Witness Name"></div>
@@ -126,6 +132,7 @@
                 <option value="Sangeeta Kumar">Sangeeta Kumar</option>
                 <option value="Soniya Soni">Soniya Soni</option>
                 <option value="VIPIN KUMAR">VIPIN KUMAR</option>
+                <option value="Bittu">Bittu</option>
                 <option value="Manual">✎ Manual Fill</option>
             </select>
             <div id="manualW2Div" class="manual-input"><input type="text" id="manualW2Name" placeholder="Witness Name"></div>
@@ -141,9 +148,11 @@
     const MODEL_ID = "meta-llama/llama-4-scout-17b-16e-instruct";
     const ADDRESSES = {
         "Vipin Tyagi": "H No Ff25, Gali No 7, Budh Bazar Vijay Nagar, Sain Vihar, Ghaziabad, Uttar Pradesh 201001",
+        "Mohd Furqan": "House No 939, Near New Masjid Behind Police Chowki, Kaila Bhatta, Ghaziabad, Ghaziabad, Uttar Pradesh, 201001",
         "Sangeeta Kumar": "House No 136 Loni Ghaziabad 201102",
         "Soniya Soni": "House Number A 1, Street Number 2, Harijan Basti, Karawal Nagar, Dayalpur, North East Delhi, Delhi 110094",
         "VIPIN KUMAR": "165 NEW VIKAS NAGAR LONI GHAZIABAD 201102"
+        "Bittu": "S/O Prahlad Singh, H No 45/3, Shanti Vihar, Karhal, Mainpuri, Uttar Pradesh 205264"
     };
 
     async function processAI(input, prefix, side) {
@@ -241,3 +250,4 @@
 </script>
 </body>
 </html>
+
