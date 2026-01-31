@@ -243,12 +243,43 @@
 
     document.getElementById('marriageForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        
+        // Helper to get manual or selected value
         const getVal = (sId, mId) => document.getElementById(sId).value === "Manual" ? document.getElementById(mId).value : document.getElementById(sId).value;
-        const msg = `*MARRIAGE REGISTRATION DETAILS*%0A%0A*Boy:* ${document.getElementById('boyName').value}%0A*Boy DOB:* ${document.getElementById('boyDob').value}%0A*Girl:* ${document.getElementById('girlName').value}%0A*Girl DOB:* ${document.getElementById('girlDob').value}%0A*Center:* ${getVal('centerSelect', 'manualCenterName')}%0A*Date:* ${document.getElementById('marriageDate').value}`;
+
+        // Construct the full message
+        let msg = `*MARRIAGE REGISTRATION DETAILS*%0A%0A`;
+        
+        msg += `*Advocate:* ${getVal('advocateSelect', 'manualAdvocateName')}%0A%0A`;
+
+        msg += `*♂ BOY'S INFO*%0A`;
+        msg += `Name: ${document.getElementById('boyName').value}%0A`;
+        msg += `Mother: ${document.getElementById('boyMother').value}%0A`;
+        msg += `Father: ${document.getElementById('boyFather').value}%0A`;
+        msg += `DOB: ${document.getElementById('boyDob').value}%0A`;
+        msg += `Address: ${document.getElementById('boyAddress').value}%0A`;
+        msg += `Pincode: ${document.getElementById('boyPincode').value}%0A%0A`;
+
+        msg += `*♀ GIRL'S INFO*%0A`;
+        msg += `Name: ${document.getElementById('girlName').value}%0A`;
+        msg += `Mother: ${document.getElementById('girlMother').value}%0A`;
+        msg += `Father: ${document.getElementById('girlFather').value}%0A`;
+        msg += `DOB: ${document.getElementById('girlDob').value}%0A`;
+        msg += `Address: ${document.getElementById('girlAddress').value}%0A`;
+        msg += `Pincode: ${document.getElementById('girlPincode').value}%0A%0A`;
+
+        msg += `*💍 MARRIAGE DETAILS*%0A`;
+        msg += `Center: ${getVal('centerSelect', 'manualCenterName')}%0A`;
+        msg += `Date: ${document.getElementById('marriageDate').value}%0A%0A`;
+
+        msg += `*👥 WITNESSES*%0A`;
+        msg += `W1: ${getVal('w1Select', 'manualW1Name')}%0A`;
+        msg += `W1 Address: ${document.getElementById('w1Address').value}%0A%0A`;
+        msg += `W2: ${getVal('w2Select', 'manualW2Name')}%0A`;
+        msg += `W2 Address: ${document.getElementById('w2Address').value}`;
+
         window.open(`https://wa.me/919990150544?text=${msg}`, '_blank');
     });
 </script>
 </body>
 </html>
-
-
