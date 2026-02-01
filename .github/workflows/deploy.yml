@@ -9,8 +9,18 @@ permissions:
   pages: write
   id-token: write
 
+# This ensures only one deployment happens at a time
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
+    # --- THIS WAS THE MISSING PART ---
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # ---------------------------------
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,7 +28,7 @@ jobs:
 
       - name: Inject API Key
         run: |
-          # Finds the placeholder and replaces it with the Secret from Settings
+          # Replaces placeholder with your Secret
           sed -i "s|REPLACE_ME_WITH_REAL_KEY|${{ secrets.GROQ_API_KEY }}|g" index.html
           
       - name: Setup Pages
@@ -30,4 +40,5 @@ jobs:
           path: '.'
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
