@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy Marriage Portal
 
 on:
   push:
-    branches: ["main"] # Or "master" depending on your branch name
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -10,25 +10,24 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Inject Secret into HTML
+      - name: Inject API Key
         run: |
-          # This swaps the placeholder with the secret from your settings
-          sed -i "s/REPLACE_ME_WITH_REAL_KEY/${{ secrets.GROQ_API_KEY }}/g" index.html
-
+          # Finds the placeholder and replaces it with the Secret from Settings
+          sed -i "s|REPLACE_ME_WITH_REAL_KEY|${{ secrets.GROQ_API_KEY }}|g" index.html
+          
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # Uploads the folder containing your index.html
+          path: '.'
 
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
