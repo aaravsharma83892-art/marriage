@@ -167,7 +167,6 @@
         const girlLimit = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()).toISOString().split('T')[0];
         document.getElementById('boyDob').setAttribute('max', boyLimit);
         document.getElementById('girlDob').setAttribute('max', girlLimit);
-        document.getElementById('marriageDate').setAttribute('min', today.toISOString().split('T')[0]);
     };
 
     async function processAI(input, prefix, side) {
@@ -315,3 +314,4 @@
 </script>
 </body>
 </html>
+
